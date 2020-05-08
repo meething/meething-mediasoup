@@ -1,0 +1,17 @@
+{
+  "name": "mediasoup-demo",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "nodemon ./main.js ./lib"
+  },
+  "dependencies": {
+    "fastify": "^2.14.0",
+    "fastify-static": "^2.7.0",
+    "mediasoup": "^3",
+    "protoo-server": "^4.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
+}
