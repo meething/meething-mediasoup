@@ -12999,27 +12999,27 @@ var scalabilityModes_1 = require("./scalabilityModes");
 exports.parseScalabilityMode = scalabilityModes_1.parse;
 },{"./Device":"node_modules/mediasoup-client/lib/Device.js","./types":"node_modules/mediasoup-client/lib/types.js","./scalabilityModes":"node_modules/mediasoup-client/lib/scalabilityModes.js"}],"node_modules/protoo-client/package.json":[function(require,module,exports) {
 module.exports = {
-  "_from": "protoo-client@^4.0.3",
+  "_args": [["protoo-client@4.0.4", "/usr/src/meething-mediasoup/client"]],
+  "_from": "protoo-client@4.0.4",
   "_id": "protoo-client@4.0.4",
   "_inBundle": false,
   "_integrity": "sha512-+WZUJJTlBSTWYeNu0Tv8SGI3kjettLvr2IUdBsAfioi0Szf8peeky79h6li7gThA3pIpNC+A+IuCUWaK7MlFfQ==",
   "_location": "/protoo-client",
   "_phantomChildren": {},
   "_requested": {
-    "type": "range",
+    "type": "version",
     "registry": true,
-    "raw": "protoo-client@^4.0.3",
+    "raw": "protoo-client@4.0.4",
     "name": "protoo-client",
     "escapedName": "protoo-client",
-    "rawSpec": "^4.0.3",
+    "rawSpec": "4.0.4",
     "saveSpec": null,
-    "fetchSpec": "^4.0.3"
+    "fetchSpec": "4.0.4"
   },
   "_requiredBy": ["/"],
   "_resolved": "https://registry.npmjs.org/protoo-client/-/protoo-client-4.0.4.tgz",
-  "_shasum": "597070eebe5dc13350d31260ea3c55c06031a0b8",
-  "_spec": "protoo-client@^4.0.3",
-  "_where": "/usr/src/mediasoup-demo-simple/client",
+  "_spec": "4.0.4",
+  "_where": "/usr/src/meething-mediasoup/client",
   "author": {
     "name": "Iñaki Baz Castillo",
     "email": "ibc@aliax.net"
@@ -13027,14 +13027,12 @@ module.exports = {
   "bugs": {
     "url": "https://github.com/ibc/protoo/issues"
   },
-  "bundleDependencies": false,
   "dependencies": {
     "debug": "^4.1.1",
     "events": "^3.1.0",
     "retry": "^0.12.0",
     "websocket": "^1.0.31"
   },
-  "deprecated": false,
   "description": "protoo JavaScript client module",
   "devDependencies": {
     "eslint": "^5.16.0"
@@ -13567,27 +13565,28 @@ module.exports = (function () {
 
 },{}],"node_modules/websocket/package.json":[function(require,module,exports) {
 module.exports = {
-  "_from": "websocket@^1.0.31",
+  "_args": [["websocket@1.0.31", "/usr/src/meething-mediasoup/client"]],
+  "_from": "websocket@1.0.31",
   "_id": "websocket@1.0.31",
   "_inBundle": false,
   "_integrity": "sha512-VAouplvGKPiKFDTeCCO65vYHsyay8DqoBSlzIO3fayrfOgU94lQN5a1uWVnFrMLceTJw/+fQXR5PGbUVRaHshQ==",
   "_location": "/websocket",
+  "_optional": true,
   "_phantomChildren": {},
   "_requested": {
-    "type": "range",
+    "type": "version",
     "registry": true,
-    "raw": "websocket@^1.0.31",
+    "raw": "websocket@1.0.31",
     "name": "websocket",
     "escapedName": "websocket",
-    "rawSpec": "^1.0.31",
+    "rawSpec": "1.0.31",
     "saveSpec": null,
-    "fetchSpec": "^1.0.31"
+    "fetchSpec": "1.0.31"
   },
   "_requiredBy": ["/protoo-client"],
   "_resolved": "https://registry.npmjs.org/websocket/-/websocket-1.0.31.tgz",
-  "_shasum": "e5d0f16c3340ed87670e489ecae6144c79358730",
-  "_spec": "websocket@^1.0.31",
-  "_where": "/usr/src/mediasoup-demo-simple/client/node_modules/protoo-client",
+  "_spec": "1.0.31",
+  "_where": "/usr/src/meething-mediasoup/client",
   "author": {
     "name": "Brian McKelvey",
     "email": "theturtle32@gmail.com",
@@ -13597,7 +13596,6 @@ module.exports = {
   "bugs": {
     "url": "https://github.com/theturtle32/WebSocket-Node/issues"
   },
-  "bundleDependencies": false,
   "config": {
     "verbose": false
   },
@@ -13613,7 +13611,6 @@ module.exports = {
     "typedarray-to-buffer": "^3.1.5",
     "yaeti": "^0.0.6"
   },
-  "deprecated": false,
   "description": "Websocket Client & Server Library implementing the WebSocket protocol as specified in RFC 6455.",
   "devDependencies": {
     "buffer-equal": "^1.0.0",
@@ -14181,7 +14178,7 @@ class Room extends _events.EventEmitter {
 
   join() {
     console.warn("room.join()");
-    const wsTransport = new _protooClient.WebSocketTransport('wss://' + window.location.hostname + ':3443');
+    const wsTransport = new _protooClient.WebSocketTransport('wss://' + window.location.hostname + ':2345');
     this.peer = new _protooClient.Peer(wsTransport);
     this.peer.on("open", this.onPeerOpen.bind(this));
     this.peer.on("request", this.onPeerRequest.bind(this));
@@ -14234,8 +14231,14 @@ class Room extends _events.EventEmitter {
     const transportInfo = await this.peer.request("createWebRtcTransport", {
       producing: true,
       consuming: false
-    }).catch(console.error); // transportInfo.iceServers = [{ urls: 'stun:stun.l.google.com:19302' }];
-
+    }).catch(console.error);
+    transportInfo.iceServers = [{
+      urls: 'stun:stun.l.google.com:19302'
+    }, {
+      username: "meething",
+      credential: "b0756813573c0e7f95b2ef667c75ace3",
+      urls: ["turn:turn.hepic.tel"]
+    }];
     this.sendTransport = device.createSendTransport(transportInfo);
     this.sendTransport.on("connect", ({
       dtlsParameters
@@ -14275,8 +14278,14 @@ class Room extends _events.EventEmitter {
     const transportInfo = await this.peer.request("createWebRtcTransport", {
       producing: false,
       consuming: true
-    }).catch(console.error); // transportInfo.iceServers = [{ urls: 'stun:stun.l.google.com:19302' }];
-
+    }).catch(console.error);
+    transportInfo.iceServers = [{
+      urls: 'stun:stun.l.google.com:19302'
+    }, {
+      username: "meething",
+      credential: "b0756813573c0e7f95b2ef667c75ace3",
+      urls: ["turn:turn.hepic.tel"]
+    }];
     this.recvTransport = device.createRecvTransport(transportInfo);
     this.recvTransport.on("connect", ({
       dtlsParameters

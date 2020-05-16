@@ -13,7 +13,7 @@ export default class Room extends EventEmitter {
 
   join() {
     console.warn("room.join()");
-    const wsTransport = new WebSocketTransport('wss://'+window.location.host+':3443');
+    const wsTransport = new WebSocketTransport('wss://'+window.location.hostname+':2345');
 
     this.peer = new Peer(wsTransport);
     this.peer.on("open", this.onPeerOpen.bind(this));
@@ -75,7 +75,15 @@ export default class Room extends EventEmitter {
       })
       .catch(console.error);
 
-    // transportInfo.iceServers = [{ urls: 'stun:stun.l.google.com:19302' }];
+    transportInfo.iceServers = [{ urls: 'stun:stun.l.google.com:19302' },
+	{
+          username:
+            "meething",
+          credential: "b0756813573c0e7f95b2ef667c75ace3",
+          urls: [
+            "turn:turn.hepic.tel",
+          ],
+        }];
     this.sendTransport = device.createSendTransport(transportInfo);
     this.sendTransport.on(
       "connect",
@@ -118,7 +126,15 @@ export default class Room extends EventEmitter {
       })
       .catch(console.error);
 
-    // transportInfo.iceServers = [{ urls: 'stun:stun.l.google.com:19302' }];
+    transportInfo.iceServers = [{ urls: 'stun:stun.l.google.com:19302' },
+	{
+          username:
+            "meething",
+          credential: "b0756813573c0e7f95b2ef667c75ace3",
+          urls: [
+            "turn:turn.hepic.tel",
+          ],
+        }];
     this.recvTransport = device.createRecvTransport(transportInfo);
     this.recvTransport.on(
       "connect",

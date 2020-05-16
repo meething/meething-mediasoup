@@ -13,7 +13,7 @@ export default class Room extends EventEmitter {
 
   join() {
     console.warn("room.join()");
-    const wsTransport = new WebSocketTransport(`ws://localhost:2345`);
+    const wsTransport = new WebSocketTransport('wss://'+window.location.hostname+':3443');
 
     this.peer = new Peer(wsTransport);
     this.peer.on("open", this.onPeerOpen.bind(this));
@@ -177,3 +177,4 @@ export default class Room extends EventEmitter {
     this.emit("@" + notification.method, notification.data);
   }
 }
+
