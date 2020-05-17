@@ -13,8 +13,6 @@ var options = {
     cert: fs.readFileSync('/etc/letsencrypt/live/meething.hepic.tel/cert.pem'),
     key: fs.readFileSync('/etc/letsencrypt/live/meething.hepic.tel/privkey.pem'),
 }
-const fastify = require('fastify')({https: options})
-const fStatic = require('fastify-static');
 
 (async () => {
   const worker = await mediasoup.createWorker({
@@ -33,8 +31,8 @@ const fStatic = require('fastify-static');
         kind: "audio",
         name: "opus",
         mimeType: "audio/opus",
-        clockRate: 48000,
-        channels: 2
+        clockRate: 44100,
+        channels: 1
       },
       {
         kind: "video",
@@ -50,22 +48,13 @@ const fStatic = require('fastify-static');
     httpServer.listen(2345, "0.0.0.0", resolve);
   });
 
-  fastify.register(fStatic, {
-    root: path.join(__dirname, 'public/dist'),
-    prefix: '/', // optional: default '/'
-  })
-  fastify.listen(1234, '0.0.0.0', err => {
-    if (err) throw err
-  });
-
   const wsServer = new WebSocketServer(httpServer);
   wsServer.on("connectionrequest", (info, accept) => {
     console.log(
-      "protoo connection request [peerId:%s, address:%s, origin:%s]",
+      "protoo connection request [peerId:%s, address:%s, room:%s]",
       info.socket.remoteAddress,
-      info.origin
+      info.request.url
     );
-    console.log('SOCKET',info.request.url);
     var roomId = info.request.url || 'lobby';
     if(roomId.substr(-1) === '/') {
         roomId = roomId.substr(0, str.length - 1);
@@ -88,7 +77,5 @@ const fStatic = require('fastify-static');
     }
 
   });
-
   console.log("websocket server started on https://0.0.0.0:2345");
-  // setInterval(() => console.log("room stat", room.getStatus()), 1000 * 5);
 })();
