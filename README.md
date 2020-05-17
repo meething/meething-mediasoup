@@ -1,4 +1,4 @@
-<img src="https://i.imgur.com/XS79fTC.png" width=200> 
+<img src="https://i.imgur.com/XS79fTC.png" width=200> <img  alt="mozilla-builders" src="https://user-images.githubusercontent.com/1423657/81992335-85346480-9643-11ea-8754-8275e98e06bc.png" width=100 />
 
 # Meething : MediaSoup
 
@@ -24,4 +24,4 @@ pm2 start meething-mediasoup.config.js
 
 * [Mozilla Builders](https://builders.mozilla.community) and its mentors for the guidance and support
 
-<img width="200" alt="mozilla-builders" src="https://user-images.githubusercontent.com/1423657/81992335-85346480-9643-11ea-8754-8275e98e06bc.png">
+
