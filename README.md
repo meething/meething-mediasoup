@@ -13,7 +13,7 @@ There are many servers like it, but this one provides transparent routing based 
 
 ## Service
 ```
-pm2 start --name mediasoup npm -- start
+pm2 start meething-mediasoup.config.js
 ```
 
 #### Credits

@@ -1,3 +1,9 @@
+/*
+ * Meething Mediasoup SFU
+ * https://github.com/meething
+ *
+ */
+
 const http = require("https");
 const { WebSocketServer } = require("protoo-server");
 const mediasoup = require("mediasoup");
@@ -10,8 +16,8 @@ const lru = new QuickLRU({ maxSize: 10, onEviction: false });
 
 const path = require('path')
 var options = {
-    cert: fs.readFileSync('/etc/letsencrypt/live/meething.hepic.tel/cert.pem'),
-    key: fs.readFileSync('/etc/letsencrypt/live/meething.hepic.tel/privkey.pem'),
+    cert: process.env.SSLCERT ? fs.readFileSync(process.env.SSLCERT) : false,
+    key:  process.env.SSLKEY  ? fs.readFileSync(process.env.SSLKEY)  : false,
 };
 
 (async () => {
