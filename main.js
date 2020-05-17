@@ -4,6 +4,10 @@ const mediasoup = require("mediasoup");
 const ConfRoom = require("./lib/Room");
 const fs = require('fs');
 
+// LRU with last used sockets
+const QuickLRU = require("quick-lru");
+const lru = new QuickLRU({ maxSize: 10, onEviction: false });
+
 const path = require('path')
 var options = {
     cert: fs.readFileSync('/etc/letsencrypt/live/meething.hepic.tel/cert.pem'),
@@ -41,7 +45,6 @@ const fStatic = require('fastify-static');
     ]
   });
 
-  const room = new ConfRoom(router);
   const httpServer = http.createServer(options);
   await new Promise(resolve => {
     httpServer.listen(2345, "0.0.0.0", resolve);
@@ -62,14 +65,30 @@ const fStatic = require('fastify-static');
       info.socket.remoteAddress,
       info.origin
     );
+    console.log('SOCKET',info.request.url);
+    var roomId = info.request.url || 'lobby';
+    if(roomId.substr(-1) === '/') {
+        roomId = roomId.substr(0, str.length - 1);
+    }
+    if (lru.has(roomId)) {
+	    var room = lru.get(roomId);
+	    room.handlePeerConnect({
+	      peerId: `p${String(Math.random()).slice(2)}`,
+	      protooWebSocketTransport: accept()
+	    });
+            console.log("existing room stat", roomId, room.getStatus() );
+    } else {
+	    var room = new ConfRoom(router);
+	    lru.set(roomId,room);
+	    room.handlePeerConnect({
+	      peerId: `p${String(Math.random()).slice(2)}`,
+	      protooWebSocketTransport: accept()
+	    });
+            console.log("new room stat", roomId, room.getStatus() );
+    }
 
-    room.handlePeerConnect({
-      // to be more and more strict
-      peerId: `p${String(Math.random()).slice(2)}`,
-      protooWebSocketTransport: accept()
-    });
   });
 
   console.log("websocket server started on https://0.0.0.0:2345");
-  setInterval(() => console.log("room stat", room.getStatus()), 1000 * 5);
+  // setInterval(() => console.log("room stat", room.getStatus()), 1000 * 5);
 })();

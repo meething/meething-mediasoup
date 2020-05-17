@@ -9,7 +9,8 @@
     "fastify": "^2.14.0",
     "fastify-static": "^2.7.0",
     "mediasoup": "^3",
-    "protoo-server": "^4.0.3"
+    "protoo-server": "^4.0.3",
+    "quick-lru": "^5.1.0"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"
