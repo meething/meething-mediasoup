@@ -12,7 +12,7 @@ const path = require('path')
 var options = {
     cert: fs.readFileSync('/etc/letsencrypt/live/meething.hepic.tel/cert.pem'),
     key: fs.readFileSync('/etc/letsencrypt/live/meething.hepic.tel/privkey.pem'),
-}
+};
 
 (async () => {
   const worker = await mediasoup.createWorker({
@@ -31,8 +31,8 @@ var options = {
         kind: "audio",
         name: "opus",
         mimeType: "audio/opus",
-        clockRate: 44100,
-        channels: 1
+        clockRate: 48000,
+        channels: 2
       },
       {
         kind: "video",
@@ -77,5 +77,7 @@ var options = {
     }
 
   });
+
   console.log("websocket server started on https://0.0.0.0:2345");
+
 })();
