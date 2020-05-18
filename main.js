@@ -1,24 +1,40 @@
+/*
+ * Meething Mediasoup Server
+ * https://github.com/meething
+ *
+ */
+
 const http = require("https");
 const { WebSocketServer } = require("protoo-server");
 const mediasoup = require("mediasoup");
 const ConfRoom = require("./lib/Room");
 const fs = require('fs');
+const stun = require('stun');
 
 // LRU with last used sockets
 const QuickLRU = require("quick-lru");
-const lru = new QuickLRU({ maxSize: 10, onEviction: false });
+const lru = new QuickLRU({ maxSize: 100, onEviction: false });
 
 const path = require('path')
 var options = {
-    cert: fs.readFileSync('/etc/letsencrypt/live/meething.hepic.tel/cert.pem'),
-    key: fs.readFileSync('/etc/letsencrypt/live/meething.hepic.tel/privkey.pem'),
+    cert: process.env.SSLCERT ? fs.readFileSync('/etc/letsencrypt/live/us.meething.space/cert.pem') : false,
+    key: process.env.SSLKEY ? fs.readFileSync('/etc/letsencrypt/live/us.meething.space/privkey.pem') : false,
 };
 
+
 (async () => {
-  const worker = await mediasoup.createWorker({
-    rtcMinPort: 10000,
-    rtcMaxPort: 10100
-  });
+
+  var serverOptions = {
+    rtcMinPort: 20000,
+    rtcMaxPort: 29999
+  };
+  const res = await stun.request('stun.l.google.com:19302');
+  var pubIp = res.getXorAddress().address;
+  if(pubIp) {
+    console.log('Detected Server IP', pubIp);
+    serverOptions.rtcAnnouncedIPv4 = pubIp;
+  }
+  const worker = await mediasoup.createWorker(serverOptions);
 
   worker.on("died", () => {
     console.log("mediasoup Worker died, exit..");
@@ -78,6 +94,6 @@ var options = {
 
   });
 
-  console.log("websocket server started on https://0.0.0.0:2345");
+  console.log("MediaSoup server started on wss://0.0.0.0:2345");
 
 })();

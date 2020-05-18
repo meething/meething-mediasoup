@@ -1,6 +1,6 @@
 {
-  "name": "mediasoup-demo",
-  "version": "1.0.0",
+  "name": "meething-mediasoup",
+  "version": "1.0.1",
   "description": "",
   "scripts": {
     "start": "nodemon ./main.js ./lib"
