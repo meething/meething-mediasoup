@@ -1,6 +1,6 @@
 {
   "name": "meething-mediasoup",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "scripts": {
     "start": "nodemon ./main.js ./lib"
@@ -8,7 +8,8 @@
   "dependencies": {
     "mediasoup": "^3",
     "protoo-server": "^4.0.3",
-    "quick-lru": "^5.1.0"
+    "quick-lru": "^5.1.0",
+    "stun": "^2.1.0"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"

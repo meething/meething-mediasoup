@@ -4,8 +4,9 @@ module.exports = {
     script: 'main.js',
     env : {
       SSL : true,
-      SSLKEY : 'privkey.pem',
-      SSLCERT  : 'fullchain.pm',
+      SSLKEY : 'certs/privkey.pem',
+      SSLCERT  : 'certs/fullchain.pm',
       DEBUG : false
+    }
   }]
 };

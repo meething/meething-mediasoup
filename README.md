@@ -11,6 +11,9 @@ There are many servers like it, but this one provides transparent routing based 
  const wsTransport = new WebSocket("wss://meething-mediasoup:2345/" + roomId, "protoo");
 ```
 
+### Configuration
+Configure your SSL certificates and preferences in `meething-mediasoup.config.js`
+
 ### Service
 ```
 pm2 start meething-mediasoup.config.js
