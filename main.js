@@ -1,5 +1,6 @@
 /*
  * Meething Mediasoup Server
+ * Meething Mediasoup SFU
  * https://github.com/meething
  *
  */
@@ -17,8 +18,8 @@ const lru = new QuickLRU({ maxSize: 100, onEviction: false });
 
 const path = require('path')
 var options = {
-    cert: process.env.SSLCERT ? fs.readFileSync('/etc/letsencrypt/live/us.meething.space/cert.pem') : false,
-    key: process.env.SSLKEY ? fs.readFileSync('/etc/letsencrypt/live/us.meething.space/privkey.pem') : false,
+    cert: process.env.SSLCERT ? fs.readFileSync(process.env.SSLCERT) : false,
+    key:  process.env.SSLKEY  ? fs.readFileSync(process.env.SSLKEY)  : false,
 };
 
 
