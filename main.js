@@ -75,7 +75,7 @@ var options = {
 	  
     // Parse WSS Query Paraemters
     var queryString = info.request.url || '';
-    if(queryString.substr(-1) === '/') { queryString = queryString.substr(0, queryString.length - 1) }
+    if(queryString.substr(0,1) === '/') { queryString = queryString.substr(1, queryString.length); }
     const urlParams = new URLSearchParams(queryString);
     const roomId = urlParams.get('roomId') || 'lobby';
     const peerId = urlParams.get('peerId') ||  `p${String(Math.random()).slice(2)}`;
