@@ -72,25 +72,29 @@ var options = {
       info.socket.remoteAddress,
       info.request.url
     );
-    var roomId = info.request.url || 'lobby';
-    if(roomId.substr(-1) === '/') {
-        roomId = roomId.substr(0, str.length - 1);
-    }
+	  
+    // Parse WSS Query Paraemters
+    var queryString = info.request.url || '';
+    if(queryString.substr(0,1) === '/') { queryString = queryString.substr(1, queryString.length); }
+    const urlParams = new URLSearchParams(queryString);
+    const roomId = urlParams.get('roomId') || 'lobby';
+    const peerId = urlParams.get('peerId') ||  `p${String(Math.random()).slice(2)}`;
+	  	  
     if (lru.has(roomId)) {
 	    var room = lru.get(roomId);
 	    room.handlePeerConnect({
-	      peerId: `p${String(Math.random()).slice(2)}`,
+	      peerId: peerId,
 	      protooWebSocketTransport: accept()
 	    });
-            console.log("existing room stat", roomId, room.getStatus() );
+            console.log("existing room stat", roomId, peerId, room.getStatus() );
     } else {
 	    var room = new ConfRoom(router);
 	    lru.set(roomId,room);
 	    room.handlePeerConnect({
-	      peerId: `p${String(Math.random()).slice(2)}`,
+	      peerId: peerId,
 	      protooWebSocketTransport: accept()
 	    });
-            console.log("new room stat", roomId, room.getStatus() );
+            console.log("new room stat", roomId, peerId, room.getStatus() );
     }
 
   });
