@@ -5,7 +5,7 @@ module.exports = {
     env : {
       SSL : true,
       SSLKEY : 'certs/privkey.pem',
-      SSLCERT  : 'certs/fullchain.pm',
+      SSLCERT  : 'certs/fullchain.pem',
       DEBUG : false
     }
   }]
