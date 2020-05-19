@@ -5,10 +5,10 @@
 This is the awesome [mediasoup](https://mediasoup.org) multiroom server implementation for [meething](https://github.com/meething/meething) 
 
 #### Why?
-There are many servers like it, but this one provides transparent routing based on `wss` paths for room user isolation.
+There are many servers like it, but this one provides transparent room and user routing based on `wss` URL parameters
 
 ```
- const wsTransport = new WebSocket("wss://meething-mediasoup:2345/" + roomId, "protoo");
+wss://meething-mediasoup:2345/?roomId=lobby&peerId=meMyselfandI
 ```
 
 ### Configuration
