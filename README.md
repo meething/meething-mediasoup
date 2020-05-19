@@ -5,7 +5,7 @@
 This is the awesome [mediasoup](https://mediasoup.org) multiroom server implementation for [meething](https://github.com/meething/meething) 
 
 #### Why?
-There are many servers like it, but this one provides transparent room and user routing based on `wss` URL parameters
+There are many servers like it, but this one provides transparent room and user routing based on `wss` URL parameters and LRU rooms
 
 ```
 wss://meething-mediasoup:2345/?roomId=lobby&peerId=meMyselfandI
