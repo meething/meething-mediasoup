@@ -11,10 +11,13 @@ There are many servers like it, but this one provides transparent room and user 
 wss://meething-mediasoup:2345/?roomId=lobby&peerId=meMyselfandI
 ```
 
-### Configuration
+#### dWeb (wip)
+The SFU will advertise itself to gun and/or hyperswarm dht peers for discovery by clients
+
+#### Configuration
 Configure your SSL certificates and preferences in `meething-mediasoup.config.js`
 
-### Service
+#### Service
 ```
 pm2 start meething-mediasoup.config.js
 ```
