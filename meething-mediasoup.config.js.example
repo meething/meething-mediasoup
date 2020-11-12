@@ -1,0 +1,15 @@
+module.exports = {
+  apps : [{
+    name: 'meething-mediasoup-sfu',
+    script: 'main.js',
+    env : {
+      SSL : true,
+      PORT : 2345,
+      MINPORT : 20000,
+      MAXPORT : 29999,
+      SSLKEY : '/etc/letsencrypt/live/your-domain/privkey.pem',
+      SSLCERT  : '/etc/letsencrypt/live/your-domain/fullchain.pem',
+      DEBUG : false
+    }
+  }]
+};

@@ -14,7 +14,7 @@ const stun = require('stun');
 
 // LRU with last used sockets
 const QuickLRU = require("quick-lru");
-const lru = new QuickLRU({ maxSize: 100, onEviction: false });
+const lru = new QuickLRU({ maxSize: 1000, onEviction: false });
 
 const path = require('path')
 var options = {
@@ -26,8 +26,8 @@ var options = {
 (async () => {
 
   var serverOptions = {
-    rtcMinPort: 20000,
-    rtcMaxPort: 29999
+    rtcMinPort: process.env.MINPORT || 20000,
+    rtcMaxPort: process.env.MAXPORT || 29999
   };
   const res = await stun.request('stun.l.google.com:19302');
   var pubIp = res.getXorAddress().address;
@@ -62,7 +62,7 @@ var options = {
 
   const httpServer = http.createServer(options);
   await new Promise(resolve => {
-    httpServer.listen(2345, "0.0.0.0", resolve);
+    httpServer.listen(process.env.PORT || 2345, "0.0.0.0", resolve);
   });
 
   const wsServer = new WebSocketServer(httpServer);
@@ -99,6 +99,6 @@ var options = {
 
   });
 
-  console.log("MediaSoup server started on wss://0.0.0.0:2345");
+  console.log("MediaSoup server started on wss://0.0.0.0:",process.env.PORT||2345);
 
 })();
